@@ -1,0 +1,9 @@
+{
+  "schemaFile": "http://127.0.0.1:8000/api/openapi.json", 
+  "outputFile": "./src/api/StackdApi.ts",
+  "exportName": "StackdApi",
+  "hooks": true,
+  "apiFile": "./src/api/emptyApi.ts",
+  "apiImport": "emptySplitApi"
+}
+
