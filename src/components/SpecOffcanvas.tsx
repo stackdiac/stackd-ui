@@ -11,30 +11,30 @@ const yaml = require('js-yaml');
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nord as theme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-import { hideConfigFileOffcanvas } from '../actions/ConfigFileOffcanvasActions';
+import { hideSpecOffcanvas } from '../actions/SpecOffcanvasActions';
 
 const mapStateToProps = (state: RootState) => ({
-  state: state.ConfigFileOffcanvasStore,
+  state: state.SpecOffcanvasStore,
 });
 
 
-const connector = connect(mapStateToProps, {hideConfigFileOffcanvas});
+const connector = connect(mapStateToProps, {hideSpecOffcanvas});
 
-type ConfigFileOffcanvasProps = {} & ConnectedProps<typeof connector>;
+type SpecOffcanvasProps = {} & ConnectedProps<typeof connector>;
 
-function ConfigFileOffcanvas(props: ConfigFileOffcanvasProps) {
-  const {state, hideConfigFileOffcanvas} = props;
+function SpecOffcanvas(props: SpecOffcanvasProps) {
+  const {state, hideSpecOffcanvas} = props;
     
-    if (state.config_file == null) {
+    if (state.spec == null) {
       return null;
     }
       
 
     return (
-    <Offcanvas show={state.show} onHide={hideConfigFileOffcanvas} placement={'end'}>
+    <Offcanvas show={state.show} onHide={hideSpecOffcanvas} placement={'end'}>
       <Tab.Container id="cfo-tabs" defaultActiveKey="data">
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>file: {state.config_file.relpath}</Offcanvas.Title>        
+        <Offcanvas.Title>file: {state.spec.relpath}</Offcanvas.Title>        
         <Nav variant="pills" className="ms-auto me-2">
             <Nav.Item>
               <Nav.Link eventKey="data">Data</Nav.Link>
@@ -51,14 +51,14 @@ function ConfigFileOffcanvas(props: ConfigFileOffcanvasProps) {
       <Tab.Content>
       <Tab.Pane eventKey="data" title="Data">
       
-      <SyntaxHighlighter language="yaml" style={theme}>{yaml.dump(state.config_file.data)}</SyntaxHighlighter>
+      <SyntaxHighlighter language="yaml" style={theme}>{yaml.dump(state.spec.data)}</SyntaxHighlighter>
       
       </Tab.Pane>
       <Tab.Pane eventKey="source" title="Source">
-      <SyntaxHighlighter language="yaml" style={theme}>{state.config_file.source}</SyntaxHighlighter>
+      <SyntaxHighlighter language="yaml" style={theme}>{state.spec.source}</SyntaxHighlighter>
       </Tab.Pane>
       <Tab.Pane eventKey="rendered" title="Rendered">
-      <SyntaxHighlighter language="yaml" style={theme}>{state.config_file.rendered}</SyntaxHighlighter>
+      <SyntaxHighlighter language="yaml" style={theme}>{state.spec.rendered}</SyntaxHighlighter>
       </Tab.Pane>
           </Tab.Content>
  
@@ -69,4 +69,4 @@ function ConfigFileOffcanvas(props: ConfigFileOffcanvasProps) {
 }
 
 
-export default connector(ConfigFileOffcanvas);
+export default connector(SpecOffcanvas);

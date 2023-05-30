@@ -6,7 +6,7 @@ import { useGetSdSdGetQuery } from '../api/StackdApi';
 import  DictCard from '../components/DictCard';
 import NestedDictCard from '../components/NestedDictCard';
 import ConfigFileCard from '../components/ConfigFileCard';
-import ConfigFileOffcanvasButton from '../components/ConfigFileOffcanvasButton';
+import SpecOffcanvasButton from '../components/SpecOffcanvasButton';
 
 
 const Home = () => {
@@ -20,9 +20,9 @@ const Home = () => {
     {
       name: 'Show Config File',
       icon: 'file-earmark',
-      component: ConfigFileOffcanvasButton,
+      component: SpecOffcanvasButton,
       props: {
-        config_file: data.conf.config_file        
+        spec: data.conf.spec        
       }
     }
   ]

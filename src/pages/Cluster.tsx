@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 
 import DictCard from '../components/DictCard';
 import NestedDictCard from '../components/NestedDictCard';
-import ConfigFileOffcanvasButton from '../components/ConfigFileOffcanvasButton';
+import SpecOffcanvasButton from '../components/SpecOffcanvasButton';
 
 
 const Cluster = () => {
@@ -23,7 +23,7 @@ const Cluster = () => {
 
   
 
-  console.log(data, error, isLoading, JSON.stringify(data, null, 2));
+ // console.log(data, error, isLoading, JSON.stringify(data, null, 2));
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -34,7 +34,7 @@ const Cluster = () => {
 
       <Row>
         <Col md={12} className='mt-3'><h1>Cluster: <code><u>{data.name}</u></code>
-          <ConfigFileOffcanvasButton config_file={data.config_file} />
+          <SpecOffcanvasButton spec={data.spec} />
         </h1></Col>
         <Col>
 
@@ -77,7 +77,7 @@ const Cluster = () => {
                             <Button variant={"primary"} className="mx-1 mb-2" size="sm" key={operation}>{operation}</Button>
                           ))}
                         </td>
-                        <td><ConfigFileOffcanvasButton config_file={stack.stack.config_file} size="sm" /></td>
+                        <td><SpecOffcanvasButton spec={stack.stack.spec} size="sm" /></td>
                       </tr>
                     );
                           })}

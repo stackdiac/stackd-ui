@@ -14,7 +14,7 @@ import { store } from './store'
 import { Provider } from 'react-redux'
 import Clusters from './pages/Clusters';
 import Cluster from './pages/Cluster';
-import ConfigFileOffcanvas from './components/ConfigFileOffcanvas';
+import SpecOffcanvas from './components/SpecOffcanvas';
 
 import './index.scss'
 
@@ -24,7 +24,7 @@ import './index.scss'
 const App = () => {
   return (
     <Router>
-        <ConfigFileOffcanvas />
+        <SpecOffcanvas />
         <Navbar /> 
         <Container fluid>
        

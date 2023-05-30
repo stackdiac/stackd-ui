@@ -1,16 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import { StackdApi } from '../api/StackdApi'
-import configFileOffcanvasStore from '../reducers/ConfigFileOffcanvas'
+import specOffcanvasStore from '../reducers/SpecOffcanvas'
+import { setupListeners } from '@reduxjs/toolkit/dist/query'
+//import clusterSelectorStore from '../reducers/ClusterSelector'
 
 export const store = configureStore({
   reducer: {
     [StackdApi.reducerPath] : StackdApi.reducer,
-    ConfigFileOffcanvasStore: configFileOffcanvasStore,    
+    SpecOffcanvasStore: specOffcanvasStore,    
+  //  ClusterSelectorStore: clusterSelectorStore,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(StackdApi.middleware),
 })
+
+setupListeners(store.dispatch)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

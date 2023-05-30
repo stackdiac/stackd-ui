@@ -15,11 +15,16 @@ import NestedDictCard from '../components/NestedDictCard';
 const Clusters = () => {
   const { data, error, isLoading } = useGetClustersQuery();
 
-  console.log(data, error, isLoading, JSON.stringify(data, null, 2));
+  
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  if (error) {
+    return <div>{`error: {error}`}</div>;
+  }
+  
 
   return (
     <Container fluid className='mb-4'>

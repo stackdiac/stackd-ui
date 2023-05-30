@@ -57,7 +57,7 @@ export type Backend = {
   name?: string;
   config?: object;
 };
-export type ConfigFile = {
+export type Spec = {
   path: string;
   relpath?: string;
   source?: string;
@@ -78,7 +78,7 @@ export type Config = {
   binaries: Binaries;
   backend?: Backend;
   providers?: object;
-  config_file?: ConfigFile;
+  spec?: Spec;
 };
 export type Configuration = {
   title?: string;
@@ -109,7 +109,7 @@ export type Module = {
   tf_backend_config?: object;
   backend?: Backend;
 };
-export type ConfigFileModel = {
+export type SpecModel = {
   path: string;
   relpath?: string;
   source?: string;
@@ -129,7 +129,7 @@ export type StackModel = {
   };
   vars?: object;
   backend?: Backend;
-  config_file?: ConfigFileModel;
+  spec?: SpecModel;
 };
 export type ClusterStackModel = {
   name?: string;
@@ -147,7 +147,7 @@ export type ClusterModel = {
     [key: string]: ClusterStackModel;
   };
   backend?: Backend;
-  config_file?: ConfigFileModel;
+  spec?: SpecModel;
 };
 export type ValidationError = {
   loc: (string | number)[];
@@ -168,7 +168,7 @@ export type ConfigModel = {
   binaries: Binaries;
   backend?: Backend;
   providers?: object;
-  config_file?: ConfigFileModel;
+  spec?: SpecModel;
 };
 export type Provider = {
   source: string;
