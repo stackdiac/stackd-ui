@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import { StackdApi } from '../api/StackdApi'
 import specOffcanvasStore from '../reducers/SpecOffcanvas'
+import FormOffcanvasStore from '../reducers/FormOffcanvas'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 //import clusterSelectorStore from '../reducers/ClusterSelector'
 
@@ -9,10 +10,13 @@ export const store = configureStore({
   reducer: {
     [StackdApi.reducerPath] : StackdApi.reducer,
     SpecOffcanvasStore: specOffcanvasStore,    
+    FormOffcanvasStore: FormOffcanvasStore,
   //  ClusterSelectorStore: clusterSelectorStore,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(StackdApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: false
+    }).concat(StackdApi.middleware),
 })
 
 setupListeners(store.dispatch)

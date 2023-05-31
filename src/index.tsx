@@ -15,6 +15,8 @@ import { Provider } from 'react-redux'
 import Clusters from './pages/Clusters';
 import Cluster from './pages/Cluster';
 import SpecOffcanvas from './components/SpecOffcanvas';
+import FormOffcanvas from './components/FormOffcanvas';
+import Stack from './pages/stack/Stack';
 
 import './index.scss'
 
@@ -25,6 +27,7 @@ const App = () => {
   return (
     <Router>
         <SpecOffcanvas />
+        <FormOffcanvas />
         <Navbar /> 
         <Container fluid>
        
@@ -33,6 +36,7 @@ const App = () => {
               <Route path="/about" element={<About />} />
               <Route path="/clusters" element={<Clusters />} />
               <Route path="/build/:clusterName" element={<Cluster />} />
+              <Route path="/stack/:clusterName/:stackName" element={<Stack />} />
             </Routes>
        
       </Container>

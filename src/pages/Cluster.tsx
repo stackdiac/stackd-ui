@@ -64,7 +64,10 @@ const Cluster = () => {
                     return (
                       <tr key={stack.name}>
                         <td>
-                          {stack.name}                          
+                        
+                                           <LinkContainer to={`/stack/${clusterName}/${stack.name}`}>
+                                           <Button variant={"link"} className="mx-1 mb-2" size="sm" key={`stack-{stack.name}`}>{stack.name}</Button>
+                                           </LinkContainer>
                         </td>
                         <td>{stack.src}</td>
                         <td>

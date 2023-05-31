@@ -10,6 +10,51 @@ const injectedRtkApi = api.injectEndpoints({
     buildCluster: build.query<BuildClusterApiResponse, BuildClusterApiArg>({
       query: (queryArg) => ({ url: `/build/${queryArg.clusterName}` }),
     }),
+    readCluster: build.query<ReadClusterApiResponse, ReadClusterApiArg>({
+      query: (queryArg) => ({ url: `/cluster/${queryArg.clusterName}` }),
+    }),
+    readClusterStack: build.query<
+      ReadClusterStackApiResponse,
+      ReadClusterStackApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/stack/${queryArg.clusterName}/${queryArg.stackName}`,
+      }),
+    }),
+    clusterStackModule: build.query<
+      ClusterStackModuleApiResponse,
+      ClusterStackModuleApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/module/${queryArg.clusterName}/${queryArg.stackName}/${queryArg.moduleName}`,
+      }),
+    }),
+    listModuleSecrets: build.query<
+      ListModuleSecretsApiResponse,
+      ListModuleSecretsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/secret/${queryArg.clusterName}/${queryArg.stackName}/${queryArg.moduleName}`,
+      }),
+    }),
+    readModuleSecret: build.query<
+      ReadModuleSecretApiResponse,
+      ReadModuleSecretApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/secret/${queryArg.clusterName}/${queryArg.stackName}/${queryArg.moduleName}/${queryArg.secretName}`,
+      }),
+    }),
+    writeModuleSecret: build.mutation<
+      WriteModuleSecretApiResponse,
+      WriteModuleSecretApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/secret/${queryArg.clusterName}/${queryArg.stackName}/${queryArg.moduleName}/${queryArg.secretName}`,
+        method: "POST",
+        body: queryArg.secret,
+      }),
+    }),
     getSdSdGet: build.query<GetSdSdGetApiResponse, GetSdSdGetApiArg>({
       query: () => ({ url: `/sd` }),
     }),
@@ -26,6 +71,48 @@ export type BuildClusterApiResponse =
   /** status 200 Successful Response */ ClusterModel;
 export type BuildClusterApiArg = {
   clusterName: string;
+};
+export type ReadClusterApiResponse =
+  /** status 200 Successful Response */ ClusterModel;
+export type ReadClusterApiArg = {
+  clusterName: string;
+};
+export type ReadClusterStackApiResponse =
+  /** status 200 Successful Response */ ClusterStackModel;
+export type ReadClusterStackApiArg = {
+  clusterName: string;
+  stackName: string;
+};
+export type ClusterStackModuleApiResponse =
+  /** status 200 Successful Response */ Module;
+export type ClusterStackModuleApiArg = {
+  clusterName: string;
+  stackName: string;
+  moduleName: string;
+};
+export type ListModuleSecretsApiResponse =
+  /** status 200 Successful Response */ string[];
+export type ListModuleSecretsApiArg = {
+  clusterName: string;
+  stackName: string;
+  moduleName: string;
+};
+export type ReadModuleSecretApiResponse =
+  /** status 200 Successful Response */ Secret;
+export type ReadModuleSecretApiArg = {
+  clusterName: string;
+  stackName: string;
+  moduleName: string;
+  secretName: string;
+};
+export type WriteModuleSecretApiResponse =
+  /** status 200 Successful Response */ Secret;
+export type WriteModuleSecretApiArg = {
+  clusterName: string;
+  stackName: string;
+  moduleName: string;
+  secretName: string;
+  secret: Secret;
 };
 export type GetSdSdGetApiResponse =
   /** status 200 Successful Response */ StackdModel;
@@ -92,6 +179,14 @@ export type Operation = {
   };
   configuration?: string;
 };
+export type ModuleSecretStatus = "unknown" | "not_exists" | "exists" | "valid";
+export type ModuleSecret = {
+  name?: string;
+  secret_type?: string;
+  secret_schema?: object;
+  required?: boolean;
+  status?: ModuleSecretStatus;
+};
 export type Module = {
   name?: string;
   source?: string;
@@ -108,6 +203,9 @@ export type Module = {
   tf_backend?: string;
   tf_backend_config?: object;
   backend?: Backend;
+  secrets?: {
+    [key: string]: ModuleSecret;
+  };
 };
 export type SpecModel = {
   path: string;
@@ -130,6 +228,7 @@ export type StackModel = {
   vars?: object;
   backend?: Backend;
   spec?: SpecModel;
+  schema?: any;
 };
 export type ClusterStackModel = {
   name?: string;
@@ -156,6 +255,10 @@ export type ValidationError = {
 };
 export type HttpValidationError = {
   detail?: ValidationError[];
+};
+export type Secret = {
+  data?: object;
+  metadata?: object;
 };
 export type ConfigModel = {
   kind?: string;
@@ -189,5 +292,11 @@ export const {
   useGetConfigQuery,
   useGetClustersQuery,
   useBuildClusterQuery,
+  useReadClusterQuery,
+  useReadClusterStackQuery,
+  useClusterStackModuleQuery,
+  useListModuleSecretsQuery,
+  useReadModuleSecretQuery,
+  useWriteModuleSecretMutation,
   useGetSdSdGetQuery,
 } = injectedRtkApi;

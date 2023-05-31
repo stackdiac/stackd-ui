@@ -1,9 +1,10 @@
 import React from 'react';
 import { Navbar, Nav, NavbarBrand, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
-import { useGetClustersQuery } from '../api/StackdApi';
+import { useGetClustersQuery, useReadClusterQuery } from '../api/StackdApi';
 import { Route, Routes } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import SpecOffcanvasButton from '../components/SpecOffcanvasButton';
 
 
 const links = [
@@ -20,7 +21,7 @@ const ClusterDropdown = () => {
     return <div>Loading...</div>;
   }
   return (
-    <NavDropdown title={`cluster: ${clusterName}`} id="clusters">
+    <NavDropdown title={`cluster: ${clusterName}`} id="clusters" className="me-3">
       {data.map((cluster) => (
         <LinkContainer key={cluster.name} to={`/build/${cluster.name}`}>
           <NavDropdown.Item>{cluster.name}</NavDropdown.Item>
@@ -30,13 +31,32 @@ const ClusterDropdown = () => {
   );
 };
 
-const CustomNavbar = () => {
-  const { data, error, isLoading } = useGetClustersQuery();
-  const { clusterName } = useParams();
-  console.log("CN", clusterName);
+const StackDropdown = () => {
+  const { clusterName, stackName } = useParams();
+  const { data, error, isLoading } = useReadClusterQuery({ clusterName: clusterName });
+
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (<></>);
   }
+
+  return (<>
+    <NavDropdown title={`stack: ${stackName}`} id="clusters">
+      {Object.keys(data.stacks).map((stack) => (
+        <LinkContainer key={stack} to={`/stack/${clusterName}/${stack}`}>
+          <NavDropdown.Item>{stack}</NavDropdown.Item>
+        </LinkContainer>
+      ))}      
+    </NavDropdown>
+    <SpecOffcanvasButton spec={data.stacks[stackName].stack.spec} />
+    </>
+  );
+};
+
+
+const CustomNavbar = () => {
+  
+  
   return (
     <Container fluid className='pt-2 mb-4'>
       <Navbar bg="light" variant="light" expand="lg" className="shadow-sm rounded border">
@@ -58,10 +78,12 @@ const CustomNavbar = () => {
             <Routes>
              
               <Route path="/build/:clusterName" element={<ClusterDropdown />} />
-              <Route element={<ClusterDropdown />} />
+              <Route path="/stack/:clusterName/:stackName" element={<><ClusterDropdown /><StackDropdown/></>} />
+              
           
             </Routes>
           </Navbar.Collapse>
+         
           <Nav className="ms-auto">
 
 
